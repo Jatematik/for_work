@@ -1,0 +1,32 @@
+IN FUNCTION.PHP
+
+// Custom fields
+
+add_action( 'woocommerce_product_options_general_product_data', 'art_woo_add_custom_fields' );
+function art_woo_add_custom_fields() {
+	global $product, $post;
+	echo '<div class="options_group">';
+	woocommerce_wp_checkbox( array(
+		'id'            => 'color_selection',
+		'wrapper_class' => 'show_if_simple',
+		'label'         => 'Включить выбор цвета',
+	 ) );
+	echo '</div>';
+}
+
+add_action( 'woocommerce_process_product_meta', 'art_woo_custom_fields_save', 10 );
+function art_woo_custom_fields_save( $post_id ) {
+
+	// Вызываем объект класса
+	$product = wc_get_product( $post_id );
+
+	// Сохранение чекбоксов
+	$checkbox_field = isset( $_POST['color_selection'] ) ? 'yes' : 'no';
+	$product->update_meta_data( 'color_selection', $checkbox_field );
+
+	$product->save();
+}
+
+IN PRODUCT
+
+$product->get_meta( 'color_selection', true ) == "yes"
