@@ -1,0 +1,6 @@
+Источник https://forum.virtuemart.net/index.php?topic=139906.0
+
+Решение:
+/components/com_virtuemart/views/productdetails/view.html.php Раскомментировать или добавить
+строку 196:
+if($category->parent === false) $category->parent = $category_model->getParentsList($product->virtuemart_category_id);
