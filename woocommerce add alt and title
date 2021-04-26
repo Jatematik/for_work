@@ -1,0 +1,10 @@
+add_filter('wp_get_attachment_image_attributes', 'change_attachement_image_attributes', 20, 2);
+function change_attachement_image_attributes($attr, $attachment) {
+    global $post;
+    if ($post->post_type == 'product') {
+        $title = $post->post_title;
+        $attr['alt'] = $title;
+        $attr['title'] = $title;
+    }
+    return $attr;
+}
